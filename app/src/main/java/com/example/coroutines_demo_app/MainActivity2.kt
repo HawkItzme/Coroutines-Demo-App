@@ -3,10 +3,7 @@ package com.example.coroutines_demo_app
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,13 +14,20 @@ class MainActivity2 : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             Log.v("TAGY", "The App started")
 
-            val one = doSomeThingUseful1()
-            val two = doSomeThingUseful2()
+            val one = async {
+                doSomeThingUseful1()
+            }
+            val two = async {
+                doSomeThingUseful2()
+            }
 
-            val result = one + two
+            val result = one.await() + two.await()
             Log.v("TAGY", "The Result is: $result")
 
         }
+
+
+
 
     }
 
